@@ -12,5 +12,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
         http.authorizeRequests()
             .anyRequest()
             .permitAll()
+            .and()
+            .csrf().disable()
     }
 }

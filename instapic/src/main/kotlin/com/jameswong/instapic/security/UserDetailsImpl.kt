@@ -1,5 +1,6 @@
-package com.jameswong.instapic.user
+package com.jameswong.instapic.security
 
+import com.jameswong.instapic.user.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 

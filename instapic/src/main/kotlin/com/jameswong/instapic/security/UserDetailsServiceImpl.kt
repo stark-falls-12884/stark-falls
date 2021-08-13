@@ -1,5 +1,6 @@
-package com.jameswong.instapic.user
+package com.jameswong.instapic.security
 
+import com.jameswong.instapic.user.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

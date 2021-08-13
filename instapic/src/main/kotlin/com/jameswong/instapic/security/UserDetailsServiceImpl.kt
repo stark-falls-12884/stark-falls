@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class UserDetailsServiceImpl(val userRepository: UserRepository) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
         return userRepository.findUserByUsername(username)?.let { UserDetailsImpl(it) }
-            ?: throw  UsernameNotFoundException(username)
+            ?: throw UsernameNotFoundException(username)
     }
 }
 

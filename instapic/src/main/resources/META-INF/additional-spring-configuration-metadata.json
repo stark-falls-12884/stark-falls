@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "local-file-service.uploadDirectory",
+      "type": "java.lang.String",
+      "description": "Controls where the uploaded file is saved locally."
+  }
+] }

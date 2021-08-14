@@ -23,6 +23,7 @@ class SecurityConfig(val userDetailsService: UserDetailsService) : WebSecurityCo
             .authorizeRequests()
             .antMatchers("/api/user/register").permitAll()
             .antMatchers("/login").permitAll()
+            .antMatchers("/h2-console/**").permitAll() // TODO: Remove
             .anyRequest().authenticated()
             .and()
             .logout()

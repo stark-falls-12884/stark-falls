@@ -31,5 +31,5 @@ class LoginRequestHandler : UsernamePasswordAuthenticationFilter() {
         }
     }
 
-    private fun isJsonContentType(contentType: String) = MediaType.APPLICATION_JSON_VALUE === contentType
+    private fun isJsonContentType(contentType: String) = MediaType.APPLICATION_JSON_VALUE == contentType
 }

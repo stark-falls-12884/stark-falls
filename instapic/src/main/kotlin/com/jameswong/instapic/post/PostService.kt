@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Service
 class PostService(val postRepository: PostRepository, val imageService: ImageService) {
     fun savePost(body: String, image: MultipartFile): Post {
-        val currentUser = (SecurityContextHolder.getContext().authentication.details as UserDetailsImpl).getUser()
+        val currentUser = (SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl).getUser()
         val imageId = imageService.saveImage(image)
         return postRepository.save(Post(currentUser, body, LocalDateTime.now(), imageId))
     }

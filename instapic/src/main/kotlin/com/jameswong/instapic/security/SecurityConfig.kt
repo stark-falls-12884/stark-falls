@@ -22,7 +22,7 @@ class SecurityConfig(val userDetailsService: UserDetailsService) : WebSecurityCo
         http
             .authorizeRequests()
             .antMatchers("/api/user/register").permitAll()
-            .antMatchers("/login").permitAll()
+            .antMatchers("/api/user/login").permitAll()
             .antMatchers("/h2-console/**").permitAll() // TODO: Remove
             .antMatchers("/v3/api-docs/**").permitAll()
             .antMatchers("/swagger-ui.html").permitAll()
@@ -30,7 +30,7 @@ class SecurityConfig(val userDetailsService: UserDetailsService) : WebSecurityCo
             .anyRequest().authenticated()
             .and()
             .logout()
-            .logoutUrl("/logout")
+            .logoutUrl("/api/user/logout")
             .invalidateHttpSession(true)
             .logoutSuccessHandler(HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
             .and()
@@ -78,7 +78,7 @@ class SecurityConfig(val userDetailsService: UserDetailsService) : WebSecurityCo
             out.flush()
             out.close()
         }
-        filter.setFilterProcessesUrl("/login")
+        filter.setFilterProcessesUrl("/api/user/login")
         filter.setAuthenticationManager(authenticationManagerBean())
         return filter
     }

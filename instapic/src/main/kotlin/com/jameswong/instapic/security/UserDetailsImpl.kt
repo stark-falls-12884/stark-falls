@@ -19,5 +19,5 @@ class UserDetailsImpl(private val user: User) : UserDetails {
 
     override fun isEnabled(): Boolean = true
 
-    fun getUser(): User = this.user;
+    fun getUser(): User = this.user
 }

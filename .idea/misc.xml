@@ -4,4 +4,5 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/instapic" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="adopt-openj9-15" project-jdk-type="JavaSDK" />
 </project>

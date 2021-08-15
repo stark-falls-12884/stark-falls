@@ -1,20 +1,27 @@
 package com.jameswong.instapic.file
 
 import org.springframework.core.io.FileSystemResource
-import org.springframework.core.io.Resource
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.FileOutputStream
+import java.util.*
 import kotlin.io.path.Path
 
 @Service
-class LocalFileService(val localFileStorageProperties: LocalFileStorageProperties): FileService {
+class LocalFileService(
+    val localFileRepository: LocalFileRepository,
+    val localFileStorageProperties: LocalFileStorageProperties
+) : FileService {
     override fun saveFile(file: MultipartFile): String {
-        val outputPath = Path(localFileStorageProperties.uploadDirectory, file.originalFilename!!)
+        val localFileId = UUID.randomUUID()
+        val outputPath = Path(localFileStorageProperties.uploadDirectory, localFileId.toString())
+        localFileRepository.save(LocalFile(file.name, file.contentType!!, localFileId))
+
         val outputFile = FileOutputStream(outputPath.toString())
         outputFile.write(file.bytes)
         outputFile.close()
-        return ""
+        return localFileId.toString()
     }
 
     override fun getFilePath(id: String): String {
@@ -25,8 +32,10 @@ class LocalFileService(val localFileStorageProperties: LocalFileStoragePropertie
         TODO("Not yet implemented")
     }
 
-    fun getAsResource(id: String): Resource {
-        val tryFile = Path(localFileStorageProperties.uploadDirectory, id)
-        return FileSystemResource(tryFile)
+    fun getAsResource(id: String): LocalFileResource {
+        val localFile = localFileRepository.findByIdOrNull(UUID.fromString(id)) ?: throw Exception()
+        val tryFile = Path(localFileStorageProperties.uploadDirectory, localFile.id.toString())
+        val fileSystemResource = FileSystemResource(tryFile)
+        return LocalFileResource(localFile.filename, localFile.mimeType, fileSystemResource)
     }
 }

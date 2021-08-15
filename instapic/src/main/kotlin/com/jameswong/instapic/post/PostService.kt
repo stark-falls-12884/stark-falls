@@ -13,8 +13,8 @@ import java.time.LocalDateTime
 class PostService(private val postRepository: PostRepository, private val imageService: ImageService) {
     fun savePost(body: String, image: MultipartFile): Post {
         val currentUser = (SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl).getUser()
-        val imageId = imageService.saveImage(image)
-        return postRepository.save(Post(currentUser, body, LocalDateTime.now(), imageId))
+        val image = imageService.saveImage(image)
+        return postRepository.save(Post(currentUser, body, LocalDateTime.now(), image))
     }
 
     fun getPosts(pageable: Pageable): Page<Post> {

@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface LocalFileRepository : CrudRepository<LocalFile, UUID>
+interface LocalFileRepository : CrudRepository<FileEntity, UUID>

@@ -1,12 +1,13 @@
 package com.jameswong.instapic.image
 
+import com.jameswong.instapic.file.FileEntity
 import com.jameswong.instapic.file.FileService
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
 class ImageService(val fileService: FileService) {
-    fun saveImage(image: MultipartFile): String {
+    fun saveImage(image: MultipartFile): FileEntity {
         return fileService.saveFile(image)
     }
 

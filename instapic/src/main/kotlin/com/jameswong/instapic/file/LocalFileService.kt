@@ -14,21 +14,23 @@ class LocalFileService(
     val localFileRepository: LocalFileRepository,
     val localFileStorageProperties: LocalFileStorageProperties
 ) : FileService {
-    override fun saveFile(file: MultipartFile): String {
+    override fun saveFile(file: MultipartFile): FileEntity {
         val localFileId = UUID.randomUUID()
         val outputPath = Path(localFileStorageProperties.uploadDirectory, localFileId.toString())
+        val fileEntity = FileEntity(
+            "/api/file/$localFileId",
+            file.originalFilename ?: file.name,
+            file.contentType ?: MediaType.APPLICATION_OCTET_STREAM_VALUE,
+            localFileId
+        )
         localFileRepository.save(
-            LocalFile(
-                file.originalFilename ?: file.name,
-                file.contentType ?: MediaType.APPLICATION_OCTET_STREAM_VALUE,
-                localFileId
-            )
+            fileEntity
         )
 
         val outputFile = FileOutputStream(outputPath.toString())
         outputFile.write(file.bytes)
         outputFile.close()
-        return localFileId.toString()
+        return fileEntity
     }
 
     override fun getFilePath(id: String): String {

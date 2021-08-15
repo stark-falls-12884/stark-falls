@@ -2,6 +2,7 @@ package com.jameswong.instapic.file
 
 import org.springframework.core.io.FileSystemResource
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.FileOutputStream
@@ -16,7 +17,13 @@ class LocalFileService(
     override fun saveFile(file: MultipartFile): String {
         val localFileId = UUID.randomUUID()
         val outputPath = Path(localFileStorageProperties.uploadDirectory, localFileId.toString())
-        localFileRepository.save(LocalFile(file.name, file.contentType!!, localFileId))
+        localFileRepository.save(
+            LocalFile(
+                file.originalFilename ?: file.name,
+                file.contentType ?: MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                localFileId
+            )
+        )
 
         val outputFile = FileOutputStream(outputPath.toString())
         outputFile.write(file.bytes)

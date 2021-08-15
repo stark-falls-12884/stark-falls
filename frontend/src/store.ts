@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { connectRouter, routerMiddleware } from "connected-react-router";
-import { createBrowserHistory } from "history";
+import { createBrowserHistory, LocationState } from "history";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { mainSlice } from "./mainSlice";
 
@@ -9,7 +9,7 @@ export const history = createBrowserHistory();
 export const store = configureStore({
   reducer: {
     main: mainSlice.reducer,
-    router: connectRouter<any>(history),
+    router: connectRouter<LocationState>(history),
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware(history)),
 });

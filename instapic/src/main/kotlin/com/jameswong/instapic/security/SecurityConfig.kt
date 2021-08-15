@@ -24,6 +24,9 @@ class SecurityConfig(val userDetailsService: UserDetailsService) : WebSecurityCo
             .antMatchers("/api/user/register").permitAll()
             .antMatchers("/login").permitAll()
             .antMatchers("/h2-console/**").permitAll() // TODO: Remove
+            .antMatchers("/v3/api-docs/**").permitAll()
+            .antMatchers("/swagger-ui.html").permitAll()
+            .antMatchers("/swagger-ui/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .logout()

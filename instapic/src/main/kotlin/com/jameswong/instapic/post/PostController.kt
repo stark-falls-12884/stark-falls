@@ -12,12 +12,12 @@ import javax.validation.constraints.Size
 class PostController(val postService: PostService) {
 
     @GetMapping
-    fun getPosts(pageable: Pageable?): Page<Post> {
+    fun getPosts(pageable: Pageable?): Page<PostView> {
         return postService.getPosts(pageable ?: Pageable.unpaged())
     }
 
     @GetMapping("/{authorName}")
-    fun getPostsByAuthor(pageable: Pageable?, @PathVariable authorName: String): Page<Post> {
+    fun getPostsByAuthor(pageable: Pageable?, @PathVariable authorName: String): Page<PostView> {
         return postService.getPostsByAuthor(authorName, pageable ?: Pageable.unpaged())
     }
 

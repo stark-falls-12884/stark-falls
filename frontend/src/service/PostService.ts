@@ -1,7 +1,7 @@
 import wretch from "wretch";
 
 export interface GetPostsRequest {
-  number: number;
+  page: number;
   size: number;
 }
 

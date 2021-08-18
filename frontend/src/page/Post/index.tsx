@@ -1,19 +1,21 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store";
-import { getPosts } from "./postSlice";
+import { onLocationChange } from "./postSlice";
 import { PostTable } from "./Table";
+import { GetPostsRequest } from "../../service/PostService";
 
 interface PostPagePathParams {
   author?: string;
 }
 
 export function Post() {
-  const { author } = useParams<PostPagePathParams>();
+  const { author = null } = useParams<PostPagePathParams>();
+  const location = useLocation<GetPostsRequest | null>();
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    dispatch(getPosts({ author }));
-  }, []);
+    dispatch(onLocationChange({ author, request: location.state || {} }));
+  }, [author, location]);
 
   return <PostTable />;
 }

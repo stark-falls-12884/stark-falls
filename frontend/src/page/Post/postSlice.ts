@@ -11,7 +11,7 @@ interface PostSlice {
 
 const initialState: PostSlice = {
   request: {
-    number: 0,
+    page: 0,
     size: 10,
   },
   author: null,
@@ -19,13 +19,26 @@ const initialState: PostSlice = {
   loading: false,
 };
 
-export const getPosts = createAsyncThunk<
-  GetPostResponse,
-  Partial<{ request: GetPostsRequest; author: string | null }>,
+export const onLocationChange = createAsyncThunk<
+  unknown,
+  { request: Partial<GetPostsRequest>; author: string | null },
   { state: RootState }
->("post/getPosts", async ({ request, author }, thunkAPI) => {
+>("post/onLocationCHange", async ({ request, author }, thunkAPI) => {
   const state = thunkAPI.getState().post;
-  return await PostService.getPostsByAuthor(author || state.author || "", request || state.request);
+  return thunkAPI.dispatch(
+    getPosts({
+      author: author || state.author || "",
+      request: { ...state.request, ...request },
+    })
+  );
+});
+
+const getPosts = createAsyncThunk<
+  GetPostResponse,
+  { request: GetPostsRequest; author: string | null },
+  { state: RootState }
+>("post/getPosts", async ({ request, author }) => {
+  return await PostService.getPostsByAuthor(author || "", request);
 });
 
 export const postSlice = createSlice({
@@ -35,6 +48,10 @@ export const postSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getPosts.fulfilled, (state, action) => {
       state.data = action.payload;
+    });
+    builder.addCase(getPosts.pending, (state, action) => {
+      state.request = action.meta.arg.request;
+      state.author = action.meta.arg.author;
     });
   },
 });

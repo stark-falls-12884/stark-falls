@@ -11,8 +11,8 @@ interface PostSlice {
 
 const initialState: PostSlice = {
   request: {
-    pageNumber: 0,
-    pageSize: 10,
+    number: 0,
+    size: 10,
   },
   author: null,
   data: null,

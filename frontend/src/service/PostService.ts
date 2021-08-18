@@ -1,8 +1,8 @@
 import wretch from "wretch";
 
 export interface GetPostsRequest {
-  pageNumber: number;
-  pageSize: number;
+  number: number;
+  size: number;
 }
 
 export interface NewPostRequest {
@@ -12,7 +12,7 @@ export interface NewPostRequest {
 
 export interface Post {
   body: string;
-  createdTie: string;
+  createdTime: string;
   id: number;
   authorName: string;
   imageUrl: string;

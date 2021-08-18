@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
+import { push } from "connected-react-router";
 import { GetPostResponse, GetPostsRequest, PostService } from "../../service/PostService";
 import { RootState } from "../../store";
 
@@ -27,11 +28,23 @@ export const onLocationChange = createAsyncThunk<
   const state = thunkAPI.getState().post;
   return thunkAPI.dispatch(
     getPosts({
-      author: author || state.author || "",
+      author: author || "",
       request: { ...state.request, ...request },
     })
   );
 });
+
+export const getPostsByAuthor = (author: string) => {
+  return (dispatch: Dispatch) => {
+    dispatch(push(`/post/${author}`, initialState.request));
+  };
+};
+
+export const clearAuthor = () => {
+  return (dispatch: Dispatch) => {
+    dispatch(push(`/post`, initialState.request));
+  };
+};
 
 const getPosts = createAsyncThunk<
   GetPostResponse,

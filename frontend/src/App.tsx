@@ -10,7 +10,7 @@ function App() {
     <div>
       <AppBar position="static">InstaPic</AppBar>
       <Switch>
-        <Route path="/post">
+        <Route path="/post/:author?">
           <Post />
         </Route>
         <Route path="/welcome/:type?">

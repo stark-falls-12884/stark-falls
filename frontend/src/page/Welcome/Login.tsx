@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, TextField } from "@material-ui/core";
 import { Button } from "../../component/Button";
-import { Link } from "../../component/Link";
 import { useAppDispatch } from "../../store";
 import { useForm } from "react-hook-form";
 import { LoginRequest } from "../../service/UserService";
@@ -11,6 +10,7 @@ export function Login() {
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<LoginRequest>();
   const onSubmit = handleSubmit((data) => dispatch(userLogin(data)));
+
   return (
     <Container>
       <form onSubmit={onSubmit}>
@@ -20,7 +20,6 @@ export function Login() {
           Login
         </Button>
       </form>
-      <Link to="/welcome/register">Register</Link>
     </Container>
   );
 }

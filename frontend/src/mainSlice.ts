@@ -19,6 +19,10 @@ export const userRegister = createAsyncThunk("main/register", async (request: Lo
   return result;
 });
 
+export const userLogout = createAsyncThunk("main/userLogout", async () => {
+  return await UserService.logout();
+});
+
 export const mainSlice = createSlice({
   name: "main",
   initialState,
@@ -26,6 +30,9 @@ export const mainSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(userLogin.fulfilled, (state, action) => {
       state.user = action.payload;
+    });
+    builder.addCase(userLogout.fulfilled, (state) => {
+      state.user = null;
     });
   },
 });

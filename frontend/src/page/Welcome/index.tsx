@@ -1,14 +1,19 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { Login } from "./Login";
 import { Register } from "./Register";
-import { Container } from "@material-ui/core";
-
-interface WelcomePagePathParams {
-  type?: string;
-}
+import { Container, Link } from "@material-ui/core";
 
 export function Welcome() {
-  const { type = "login" } = useParams<WelcomePagePathParams>();
-  return <Container>{type === "login" ? <Login /> : <Register />}</Container>;
+  const [type, setType] = React.useState("login");
+
+  return (
+    <Container>
+      {type === "login" ? <Login /> : <Register />}
+      <div>
+        <Link onClick={() => setType(type === "login" ? "register" : "login")}>
+          {type === "login" ? "Register" : "Login"}
+        </Link>
+      </div>
+    </Container>
+  );
 }

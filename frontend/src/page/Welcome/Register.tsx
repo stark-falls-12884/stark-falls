@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, TextField } from "@material-ui/core";
 import { Button } from "../../component/Button";
-import { Link } from "../../component/Link";
 import { useForm } from "react-hook-form";
 import { LoginRequest } from "../../service/UserService";
 import { useAppDispatch } from "../../store";
@@ -20,7 +19,6 @@ export function Register() {
           Register
         </Button>
       </form>
-      <Link to="/welcome/login">Login</Link>
     </Container>
   );
 }

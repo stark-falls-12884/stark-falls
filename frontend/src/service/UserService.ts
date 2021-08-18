@@ -1,6 +1,6 @@
 import wretch from "wretch";
 
-interface LoginRequest {
+export interface LoginRequest {
   username: string;
   password: string;
 }

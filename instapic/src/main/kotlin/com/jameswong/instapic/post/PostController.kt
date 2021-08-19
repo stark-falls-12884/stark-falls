@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.time.LocalDateTime
 import javax.validation.constraints.Size
 
 @RestController
@@ -25,7 +26,15 @@ class PostController(val postService: PostService) {
     fun newPost(
         @Size(min = 0, max = 5000) @RequestPart body: String,
         @RequestPart image: MultipartFile
-    ) {
-        postService.savePost(body, image)
+    ): PostView {
+        return postService.savePost(body, image).let { PostViewImpl(it.body, it.createdTime, it.id!!, it.author.username, it.image.filename) }
     }
 }
+
+data class PostViewImpl(
+    override val body: String,
+    override val createdTime: LocalDateTime,
+    override val id: Long,
+    override val authorName: String,
+    override val imageUrl: String
+) : PostView

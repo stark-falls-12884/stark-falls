@@ -13,15 +13,26 @@ interface NewPostRequestForm {
 export function CreatePostDialog() {
   const openCreatePostDialog = useAppSelector((state) => state.post.openCreatePostDialog);
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm<NewPostRequestForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NewPostRequestForm>();
   const onSubmit = handleSubmit((data) => dispatch(newPost({ body: data.body!, image: data.file!.item(0)! })));
+
   return (
     <Dialog open={openCreatePostDialog} onClose={() => dispatch(actions.closeCreatePostDialog())}>
       <DialogTitle>Create post</DialogTitle>
       <DialogContent>
         <form onSubmit={onSubmit}>
-          <TextField label="Body" {...register("body")} />
-          <input type="file" {...register("file")} />
+          <TextField
+            required
+            error={errors.body != null}
+            helperText={errors.body?.message}
+            label="Body"
+            {...register("body", { required: "Body is required" })}
+          />
+          <input type="file" {...register("file", { required: true })} />
           <Button type="submit" color="primary">
             Submit
           </Button>

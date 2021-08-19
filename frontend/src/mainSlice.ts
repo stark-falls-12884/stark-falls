@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginRequest, UserService } from "./service/UserService";
-import { Exception } from "./service/Exception";
+import { ServerException } from "./service/ServerException";
 
 interface MainState {
   user: string | null;
-  error: Exception | null;
+  error: ServerException | Error | null;
 }
 
 const initialState: MainState = {
@@ -53,7 +53,11 @@ export const mainSlice = createSlice({
     builder.addMatcher(
       (action) => action.type.endsWith("rejected"),
       (state, action) => {
-        state.error = action.error;
+        try {
+          state.error = JSON.parse(action.error.message);
+        } catch (e) {
+          state.error = e;
+        }
       }
     );
   },

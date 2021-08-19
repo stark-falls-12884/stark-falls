@@ -15,6 +15,10 @@ export class UserService {
   }
 
   static logout(): Promise<void> {
-    return wretch("api/user/logout").post();
+    return wretch("/api/user/logout").post();
+  }
+
+  static getCurrentUser(): Promise<string | null> {
+    return wretch("/api/user/current-user").post().text();
   }
 }

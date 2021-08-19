@@ -26,6 +26,15 @@ export const userLogout = createAsyncThunk("main/userLogout", async () => {
   return await UserService.logout();
 });
 
+export const getCurrentUser = createAsyncThunk("main/getCurrentUser", async () => {
+  try {
+    return await UserService.getCurrentUser();
+  } catch (e) {
+    // No need to log error if user is not logged in
+    return;
+  }
+});
+
 export const mainSlice = createSlice({
   name: "main",
   initialState,
@@ -36,6 +45,9 @@ export const mainSlice = createSlice({
     });
     builder.addCase(userLogout.fulfilled, (state) => {
       state.user = null;
+    });
+    builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+      state.user = action.payload || null;
     });
 
     builder.addMatcher(

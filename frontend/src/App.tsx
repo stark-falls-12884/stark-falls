@@ -5,12 +5,16 @@ import { Welcome } from "./page/Welcome";
 import { Post } from "./page/Post";
 import { AppBar, Button, Toolbar } from "@material-ui/core";
 import { useAppDispatch, useAppSelector } from "./store";
-import { userLogout } from "./mainSlice";
+import { getCurrentUser, userLogout } from "./mainSlice";
 import { ErrorHandler } from "./ErrorHandler";
 
 function App() {
   const user = useAppSelector((state) => state.main.user);
   const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(getCurrentUser());
+  }, []);
   return (
     <div>
       <AppBar position="static">

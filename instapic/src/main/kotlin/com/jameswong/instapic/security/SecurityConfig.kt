@@ -63,10 +63,10 @@ class SecurityConfig(val userDetailsService: UserDetailsService) : WebSecurityCo
     fun customAuthenticationFilter(): LoginRequestHandler {
         val filter = LoginRequestHandler()
         filter.setAuthenticationSuccessHandler { _, response, authentication ->
-            val ok = (authentication.principal as (UserDetailsImpl)).username
+            val username = (authentication.principal as (UserDetailsImpl)).username
             response.contentType = MediaType.APPLICATION_JSON_VALUE
             val out = response.writer
-            out.write(ObjectMapper().writeValueAsString(ok))
+            out.write(ObjectMapper().writeValueAsString(username))
             out.flush()
             out.close()
         }
@@ -74,7 +74,7 @@ class SecurityConfig(val userDetailsService: UserDetailsService) : WebSecurityCo
             val out = response.writer
             response.status = HttpStatus.UNAUTHORIZED.value()
             response.contentType = MediaType.APPLICATION_JSON_VALUE
-            out.write(ObjectMapper().writeValueAsString(exception.message))
+            out.write(ObjectMapper().writeValueAsString(exception))
             out.flush()
             out.close()
         }

@@ -11,7 +11,7 @@ export class UserService {
   }
 
   static register(request: LoginRequest): Promise<void> {
-    return wretch("/api/user/register").post(request);
+    return wretch("/api/user/register").post(request).text();
   }
 
   static logout(): Promise<void> {

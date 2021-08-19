@@ -14,7 +14,7 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { clearAuthor, getPostsByAuthor } from "./postSlice";
+import { actions, clearAuthor, getPostsByAuthor } from "./postSlice";
 
 const useStyles = makeStyles({
   img: {
@@ -49,6 +49,9 @@ export function PostTable() {
                 Author: {author} <Button onClick={() => dispatch(clearAuthor())}>x</Button>
               </span>
             )}
+            <Button variant="contained" color="primary" onClick={() => dispatch(actions.openCreatePostDialog())}>
+              Create Post
+            </Button>
           </div>
           <TableContainer>
             <Table>

@@ -40,6 +40,6 @@ export class PostService {
     const formData = new FormData();
     formData.set("body", request.body);
     formData.set("image", request.image);
-    return wretch(`/api/post`).formData(formData).post();
+    return wretch(`/api/post`).formData(request).post().text();
   }
 }

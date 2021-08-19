@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
 import { push } from "connected-react-router";
-import { GetPostResponse, GetPostsRequest, PostService } from "../../service/PostService";
+import { GetPostResponse, GetPostsRequest, NewPostRequest, PostService } from "../../service/PostService";
 import { RootState } from "../../store";
 
 interface PostSlice {
@@ -8,6 +8,7 @@ interface PostSlice {
   author: string | null;
   data: GetPostResponse | null;
   loading: boolean;
+  openCreatePostDialog: boolean;
 }
 
 const initialState: PostSlice = {
@@ -18,13 +19,14 @@ const initialState: PostSlice = {
   author: null,
   data: null,
   loading: false,
+  openCreatePostDialog: false,
 };
 
 export const onLocationChange = createAsyncThunk<
   unknown,
   { request: Partial<GetPostsRequest>; author: string | null },
   { state: RootState }
->("post/onLocationCHange", async ({ request, author }, thunkAPI) => {
+>("post/onLocationChange", async ({ request, author }, thunkAPI) => {
   const state = thunkAPI.getState().post;
   return thunkAPI.dispatch(
     getPosts({
@@ -46,6 +48,11 @@ export const clearAuthor = () => {
   };
 };
 
+export const newPost = createAsyncThunk("post/newPost", async (request: NewPostRequest) => {
+  console.log({ request });
+  return PostService.newPost(request);
+});
+
 const getPosts = createAsyncThunk<
   GetPostResponse,
   { request: GetPostsRequest; author: string | null },
@@ -57,7 +64,14 @@ const getPosts = createAsyncThunk<
 export const postSlice = createSlice({
   name: "post",
   initialState,
-  reducers: {},
+  reducers: {
+    openCreatePostDialog(state) {
+      state.openCreatePostDialog = true;
+    },
+    closeCreatePostDialog(state) {
+      state.openCreatePostDialog = false;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPosts.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -68,3 +82,5 @@ export const postSlice = createSlice({
     });
   },
 });
+
+export const actions = postSlice.actions;

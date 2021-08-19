@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginRequest, UserService } from "./service/UserService";
+import { Exception } from "./service/Exception";
 
 interface MainState {
   user: string | null;
+  error: Exception | null;
 }
 
 const initialState: MainState = {
   user: null,
+  error: null,
 };
 
 export const userLogin = createAsyncThunk("main/userLogin", async (request: LoginRequest) => {
@@ -34,5 +37,12 @@ export const mainSlice = createSlice({
     builder.addCase(userLogout.fulfilled, (state) => {
       state.user = null;
     });
+
+    builder.addMatcher(
+      (action) => action.type.endsWith("rejected"),
+      (state, action) => {
+        state.error = action.error;
+      }
+    );
   },
 });

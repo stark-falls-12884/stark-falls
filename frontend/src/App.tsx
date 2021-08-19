@@ -6,6 +6,7 @@ import { Post } from "./page/Post";
 import { AppBar, Button, Toolbar } from "@material-ui/core";
 import { useAppDispatch, useAppSelector } from "./store";
 import { userLogout } from "./mainSlice";
+import { ErrorHandler } from "./ErrorHandler";
 
 function App() {
   const user = useAppSelector((state) => state.main.user);
@@ -33,6 +34,7 @@ function App() {
       ) : (
         <Welcome />
       )}
+      <ErrorHandler />
     </div>
   );
 }

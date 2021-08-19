@@ -5,12 +5,15 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { history, store } from "./store";
 import { ConnectedRouter } from "connected-react-router";
+import { SnackbarProvider } from "notistack";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <App />
+        <SnackbarProvider maxSnack={5}>
+          <App />
+        </SnackbarProvider>
       </ConnectedRouter>
     </Provider>
   </React.StrictMode>,

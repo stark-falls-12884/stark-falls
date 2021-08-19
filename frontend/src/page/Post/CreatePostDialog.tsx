@@ -12,6 +12,7 @@ interface NewPostRequestForm {
 
 export function CreatePostDialog() {
   const openCreatePostDialog = useAppSelector((state) => state.post.openCreatePostDialog);
+  const newPostLoading = useAppSelector((state) => state.post.newPostLoading);
   const dispatch = useAppDispatch();
   const {
     register,
@@ -33,7 +34,7 @@ export function CreatePostDialog() {
             {...register("body", { required: "Body is required" })}
           />
           <input type="file" {...register("file", { required: true })} />
-          <Button type="submit" color="primary">
+          <Button type="submit" color="primary" loading={newPostLoading}>
             Submit
           </Button>
         </form>

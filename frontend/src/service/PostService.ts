@@ -36,10 +36,10 @@ export class PostService {
     return wretch(`/api/post/${author}`).query(request).get().json();
   }
 
-  static newPost(request: NewPostRequest) {
+  static newPost(request: NewPostRequest): Promise<Post> {
     const formData = new FormData();
     formData.set("body", request.body);
     formData.set("image", request.image);
-    return wretch(`/api/post`).formData(request).post().text();
+    return wretch(`/api/post`).formData(request).post().json();
   }
 }

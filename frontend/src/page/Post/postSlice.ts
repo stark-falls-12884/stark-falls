@@ -7,7 +7,7 @@ interface PostSlice {
   request: GetPostsRequest;
   author: string | null;
   data: GetPostResponse | null;
-  loading: boolean;
+  newPostLoading: boolean;
   openCreatePostDialog: boolean;
 }
 
@@ -18,7 +18,7 @@ const initialState: PostSlice = {
   },
   author: null,
   data: null,
-  loading: false,
+  newPostLoading: false,
   openCreatePostDialog: false,
 };
 
@@ -48,8 +48,10 @@ export const searchByAuthor = (author: string) => {
   };
 };
 
-export const newPost = createAsyncThunk("post/newPost", async (request: NewPostRequest) => {
-  return PostService.newPost(request);
+export const newPost = createAsyncThunk("post/newPost", async (request: NewPostRequest, thunkAPI) => {
+  const result = await PostService.newPost(request);
+  thunkAPI.dispatch(actions.closeCreatePostDialog());
+  return result;
 });
 
 const getPosts = createAsyncThunk<
@@ -72,13 +74,26 @@ export const postSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getPosts.fulfilled, (state, action) => {
-      state.data = action.payload;
-    });
-    builder.addCase(getPosts.pending, (state, action) => {
-      state.request = action.meta.arg.request;
-      state.author = action.meta.arg.author;
-    });
+    builder
+      .addCase(getPosts.pending, (state, action) => {
+        state.request = action.meta.arg.request;
+        state.author = action.meta.arg.author;
+      })
+      .addCase(getPosts.fulfilled, (state, action) => {
+        state.data = action.payload;
+      });
+
+    builder
+      .addCase(newPost.pending, (state) => {
+        state.newPostLoading = true;
+      })
+      .addCase(newPost.fulfilled, (state, action) => {
+        state.data?.content.push(action.payload);
+        state.newPostLoading = false;
+      })
+      .addCase(newPost.rejected, (state) => {
+        state.newPostLoading = false;
+      });
   },
 });
 

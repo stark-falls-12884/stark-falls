@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/user")
 class UserController(val userService: UserService) {
     @PostMapping("/register")
-    fun register(@RequestBody loginRequest: UserLoginRequest) {
+    fun register(@Valid @RequestBody loginRequest: UserLoginRequest) {
         // TODO: Validation
         userService.register(loginRequest.username, loginRequest.password)
     }

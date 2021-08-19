@@ -12,14 +12,23 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { actions, clearAuthor, getPostsByAuthor } from "./postSlice";
+import { actions, searchByAuthor, getPostsByAuthor } from "./postSlice";
 
 const useStyles = makeStyles({
   img: {
     maxWidth: 200,
     maxHeight: 100,
+  },
+  header: {
+    display: "flex",
+    margin: 15,
+    alignItems: "baseline",
+    "& > *": {
+      marginRight: 5,
+    },
   },
 });
 
@@ -35,7 +44,7 @@ export function PostTable() {
     <div>
       {data ? (
         <React.Fragment>
-          <div>
+          <div className={classes.header}>
             <TablePagination
               count={data.totalElements}
               page={data.number}
@@ -44,12 +53,18 @@ export function PostTable() {
               rowsPerPage={request.size}
               size="small"
             />
-            {author && (
-              <span>
-                Author: {author} <Button onClick={() => dispatch(clearAuthor())}>x</Button>
-              </span>
-            )}
-            <Button variant="contained" color="primary" onClick={() => dispatch(actions.openCreatePostDialog())}>
+            <TextField
+              variant="outlined"
+              label="Author"
+              value={author}
+              onChange={(e) => dispatch(searchByAuthor(e.target.value))}
+            />
+            <Button
+              size="large"
+              variant="contained"
+              color="primary"
+              onClick={() => dispatch(actions.openCreatePostDialog())}
+            >
               Create Post
             </Button>
           </div>

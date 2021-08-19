@@ -42,14 +42,13 @@ export const getPostsByAuthor = (author: string) => {
   };
 };
 
-export const clearAuthor = () => {
+export const searchByAuthor = (author: string) => {
   return (dispatch: Dispatch) => {
-    dispatch(push(`/post`, initialState.request));
+    dispatch(push(`/post/${author}`, initialState.request));
   };
 };
 
 export const newPost = createAsyncThunk("post/newPost", async (request: NewPostRequest) => {
-  console.log({ request });
   return PostService.newPost(request);
 });
 

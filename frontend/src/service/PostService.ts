@@ -28,10 +28,6 @@ export interface GetPostResponse {
 }
 
 export class PostService {
-  static getPosts(request: GetPostsRequest): Promise<GetPostResponse> {
-    return wretch("/api/post").query(request).get().json();
-  }
-
   static getPostsByAuthor(author: string, request: GetPostsRequest): Promise<GetPostResponse> {
     return wretch(`/api/post/${author}`).query(request).get().json();
   }

@@ -13,7 +13,6 @@ import javax.validation.Valid
 class UserController(val userService: UserService) {
     @PostMapping("/register")
     fun register(@Valid @RequestBody loginRequest: UserLoginRequest) {
-        // TODO: Validation
         userService.register(loginRequest.username, loginRequest.password)
     }
 

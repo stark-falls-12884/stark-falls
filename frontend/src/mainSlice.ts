@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginRequest, UserService } from "./service/UserService";
 import { ServerException } from "./service/ServerException";
 
-interface MainState {
+export interface MainState {
   user: string | null;
   error: ServerException | Error | null;
 }
